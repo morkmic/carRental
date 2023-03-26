@@ -3,6 +3,9 @@ package com.example.carRental.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter @Setter
@@ -16,5 +19,7 @@ public class User {
     private String username;
     @NonNull
     private String password;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Car> carsList = new ArrayList<>();
 
 }

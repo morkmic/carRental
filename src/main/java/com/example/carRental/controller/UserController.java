@@ -21,11 +21,9 @@ public class UserController {
     }
 
     @PostMapping
-    public User addUser(@RequestBody User userDB) {
-        User user = new User();
-        user.setUsername(userDB.getUsername());
-        user.setPassword(userDB.getPassword());
-        return userRepository.save(user);
+    public ResponseEntity addUser(@RequestBody User user) {
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.ok(savedUser);
     }
 
 }
