@@ -6,6 +6,7 @@ import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,16 @@ public class CarController {
     @GetMapping
     public ResponseEntity getCars() {
         List<Car> cars = carRepository.findAll();
+        return ResponseEntity.ok(cars);
+    }
+    @GetMapping("/sortByASC")
+    public ResponseEntity carsByASC(@RequestParam String sortingMethod) {
+        List<Car> cars = carRepository.findAll(Sort.by(Sort.Direction.ASC, sortingMethod));
+        return ResponseEntity.ok(cars);
+    }
+    @GetMapping("/sortByDSC")
+    public ResponseEntity carsByDSC(@RequestParam String sortingMethod) {
+        List<Car> cars = carRepository.findAll(Sort.by(Sort.Direction.DESC, sortingMethod));
         return ResponseEntity.ok(cars);
     }
 
