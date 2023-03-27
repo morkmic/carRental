@@ -4,7 +4,7 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
-import org.apache.coyote.Response;
+import com.example.carRental.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,49 +21,40 @@ public class CarController {
     CarRepository carRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CarService carService;
 
     @GetMapping
     public ResponseEntity getCars() {
         List<Car> cars = carRepository.findAll();
         return ResponseEntity.ok(cars);
     }
-    @GetMapping("/sortByASC")
-    public ResponseEntity carsByASC(@RequestParam String sortingMethod) {
-        List<Car> cars = carRepository.findAll(Sort.by(Sort.Direction.ASC, sortingMethod));
-        return ResponseEntity.ok(cars);
+
+    @GetMapping("/sortCars")
+    public ResponseEntity sortCars(@RequestParam String direction, @RequestParam String sortingMethod) {
+        return ResponseEntity.ok(carService.sortCars(direction, sortingMethod));
     }
-    @GetMapping("/sortByDSC")
-    public ResponseEntity carsByDSC(@RequestParam String sortingMethod) {
-        List<Car> cars = carRepository.findAll(Sort.by(Sort.Direction.DESC, sortingMethod));
-        return ResponseEntity.ok(cars);
+
+
+    @GetMapping("/filter")
+    public ResponseEntity filterCars(@RequestParam(required = false) String manufacturer,
+                                     @RequestParam(required = false) String model) {
+        List<Car> filteredCars = carRepository.findByManufacturer(manufacturer);
+        return ResponseEntity.ok(filteredCars);
     }
 
     @PostMapping
     public ResponseEntity addCar(@RequestBody Car car) {
-        Car savedCar = carRepository.save(car);
-        return ResponseEntity.ok(savedCar);
+        return ResponseEntity.ok(carRepository.save(car));
     }
-
     @PutMapping("/{userId}/carRent")
     public ResponseEntity rentCar(@PathVariable Long userId, @RequestParam Integer carId) {
-        Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
-        if (car.isAvailability() == true) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
-            user.getCarsList().add(car);
-            car.setAvailability(false);
-            return ResponseEntity.ok(userRepository.save(user));
-        } else return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Car isn't available");
+        return carService.rentCar(userId, carId);
     }
+
     @PutMapping("/{userId}/carReturn")
-    public ResponseEntity returnCar(@PathVariable Long userId, @RequestParam Integer carId){
-        Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
-        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
-        if (car.isAvailability() == false ) {
-            user.getCarsList().remove(car);
-            car.setAvailability(true);
-            userRepository.save(user);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity returnCar(@PathVariable Long userId, @RequestParam Integer carId) {
+        return carService.returnCar(userId, carId);
 
     }
 }
