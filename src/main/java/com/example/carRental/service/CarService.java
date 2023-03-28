@@ -4,6 +4,7 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class CarService {
     }
 
 
-    public ResponseEntity returnCar( Long userId, Integer carId) {
+    public ResponseEntity returnCar(Long userId, Integer carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         if (car.isAvailability() == false) {
@@ -54,5 +55,25 @@ public class CarService {
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    public List<Car> findByManufacturer(String manufacturer) {
+
+        return carRepository.findByManufacturer(manufacturer);
+    }
+
+    public List<Car> findByModel(String model) {
+
+        return carRepository.findByModel(model);
+    }
+
+    public List<Car> findByPriceGreaterThanEqual(Double price) {
+        return carRepository.findByPriceGreaterThanEqual(price);
+    }
+
+    public ResponseEntity deleteCar(Integer carId) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
+        carRepository.delete(car);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

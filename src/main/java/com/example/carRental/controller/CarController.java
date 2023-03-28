@@ -1,12 +1,10 @@
 package com.example.carRental.controller;
 
 import com.example.carRental.model.Car;
-import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
 import com.example.carRental.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +34,18 @@ public class CarController {
     }
 
 
-    @GetMapping("/filter")
+ /*   @GetMapping("/filterCars")
     public ResponseEntity filterCars(@RequestParam(required = false) String manufacturer,
-                                     @RequestParam(required = false) String model) {
-        List<Car> filteredCars = carRepository.findByManufacturer(manufacturer);
-        return ResponseEntity.ok(filteredCars);
-    }
+                                @RequestParam(required = false) String model,
+                                @RequestParam(required = false) Double price) {
+        return ResponseEntity.status();
+    }*/
 
     @PostMapping
     public ResponseEntity addCar(@RequestBody Car car) {
         return ResponseEntity.ok(carRepository.save(car));
     }
+
     @PutMapping("/{userId}/carRent")
     public ResponseEntity rentCar(@PathVariable Long userId, @RequestParam Integer carId) {
         return carService.rentCar(userId, carId);
@@ -56,5 +55,10 @@ public class CarController {
     public ResponseEntity returnCar(@PathVariable Long userId, @RequestParam Integer carId) {
         return carService.returnCar(userId, carId);
 
+    }
+
+    @DeleteMapping("/{carId}")
+    public ResponseEntity deleteCar(@PathVariable Integer carId) {
+        return carService.deleteCar(carId);
     }
 }

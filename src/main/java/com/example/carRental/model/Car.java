@@ -9,7 +9,8 @@ import lombok.ToString;
 @Entity
 @Table(name = "cars")
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class Car {
     @Id
