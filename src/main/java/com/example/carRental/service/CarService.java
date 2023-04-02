@@ -4,16 +4,11 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,7 +30,7 @@ public class CarService {
         return cars;
     }
 
-    public ResponseEntity rentCar(Long userId, Integer carId) {
+    public ResponseEntity rentCar(Integer carId, Long userId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         if (car.isAvailability() == true) {
             User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());

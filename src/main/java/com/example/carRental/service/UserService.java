@@ -1,15 +1,13 @@
 package com.example.carRental.service;
 
-import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
+import com.example.carRental.model.UserRole;
 import com.example.carRental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -18,7 +16,6 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
-
     public ResponseEntity getUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         return ResponseEntity.ok(user);
@@ -30,6 +27,7 @@ public class UserService {
         if (userDB.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
         }
+        user.setUserRole(UserRole.USER);
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
     }
@@ -40,4 +38,5 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
+
 }
