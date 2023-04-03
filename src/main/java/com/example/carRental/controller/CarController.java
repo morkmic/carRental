@@ -6,6 +6,7 @@ import com.example.carRental.repository.UserRepository;
 import com.example.carRental.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,22 +39,25 @@ public class CarController {
 
     @PutMapping("/cars/carRent")
     public ResponseEntity rentCar(@RequestParam Integer carId, @RequestParam  Long userId) {
-        return carService.rentCar(carId, userId );
+        carService.rentCar(carId, userId );
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/cars/carReturn")
     public ResponseEntity returnCar(@RequestParam Long userId, @RequestParam Integer carId) {
-        return carService.returnCar(userId, carId);
+         carService.returnCar(userId, carId);
+         return ResponseEntity.noContent().build();
 
     }
-   // @RequestMapping("/admin")
-    @PostMapping("admin/addCar")
+    @PostMapping("cars/addCar")
     public ResponseEntity addCar(@RequestBody Car car) {
-        return ResponseEntity.ok(carRepository.save(car));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(carRepository.save(car));
     }
 
-    @DeleteMapping("/admin/deleteCar/{carId}")
+    @DeleteMapping("cars/deleteCar/{carId}")
     public ResponseEntity deleteCar(@PathVariable Integer carId) {
-        return carService.deleteCar(carId);
+        carService.deleteCar(carId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

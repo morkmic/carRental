@@ -18,26 +18,28 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("admin/users")
+    @GetMapping("/users")
     public ResponseEntity getUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("admin/users/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
+        User user = userService.getUser(userId);
+        return ResponseEntity.ok(user);
 
     }
 
-  //  @PostMapping("/users/addUser")
-    public ResponseEntity addUser(@RequestBody User user) {
-        return userService.addUser(user);
-    }
+  //  @PostMapping("/addUser")
+/*    public ResponseEntity addUser(@RequestBody User user) {
+        return ResponseEntity.ok(userService.addUser(user));
+    }*/
 
-    @DeleteMapping("admin/users/{userId}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity deleteUser(@PathVariable Long userId) {
-        return userService.deleteUser(userId);
+         userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 
 

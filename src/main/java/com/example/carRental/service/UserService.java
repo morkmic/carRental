@@ -1,5 +1,6 @@
 package com.example.carRental.service;
 
+
 import com.example.carRental.model.User;
 import com.example.carRental.model.UserRole;
 import com.example.carRental.repository.UserRepository;
@@ -16,26 +17,25 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
-    public ResponseEntity getUser(Long userId) {
+    public User getUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
-        return ResponseEntity.ok(user);
+        return user;
 
     }
 
-    public ResponseEntity addUser(User user) {
+    public User addUser(User user) {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
         if (userDB.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+            throw new IllegalStateException("user exists");
         }
         user.setUserRole(UserRole.USER);
         User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+        return savedUser;
     }
 
-    public ResponseEntity deleteUser(Long userId) {
+    public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         userRepository.delete(user);
-        return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 

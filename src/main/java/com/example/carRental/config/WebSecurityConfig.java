@@ -1,4 +1,4 @@
-package com.example.carRental.security.config;
+package com.example.carRental.config;
 
 import com.example.carRental.model.UserRole;
 import org.springframework.context.annotation.Bean;
