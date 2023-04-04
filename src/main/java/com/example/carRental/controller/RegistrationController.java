@@ -1,5 +1,6 @@
 package com.example.carRental.controller;
 
+import com.example.carRental.dto.RegistrationDto;
 import com.example.carRental.model.User;
 import com.example.carRental.service.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,8 @@ public class RegistrationController {
      RegistrationService registrationService;
 
     @PostMapping("/registration")
-    public ResponseEntity register(@RequestBody User user) {
-        return registrationService.register(user);
+    public ResponseEntity register(@RequestBody RegistrationDto registrationDto) {
+        return registrationService.register(registrationDto);
     }
 
 

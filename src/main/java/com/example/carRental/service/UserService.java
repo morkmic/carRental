@@ -1,6 +1,7 @@
 package com.example.carRental.service;
 
 
+import com.example.carRental.dto.RegistrationDto;
 import com.example.carRental.model.User;
 import com.example.carRental.model.UserRole;
 import com.example.carRental.repository.UserRepository;
@@ -23,12 +24,17 @@ public class UserService {
 
     }
 
-    public User addUser(User user) {
+    public User addUser(RegistrationDto registrationDto) {
+        User user = new User();
+        user.setUsername(registrationDto.getUsername());
+        user.setPassword(registrationDto.getPassword());
+        user.setEmail(registrationDto.getEmail());
+        user.setUserRole(UserRole.USER);
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
         if (userDB.isPresent()) {
             throw new IllegalStateException("user exists");
         }
-        user.setUserRole(UserRole.USER);
+
         User savedUser = userRepository.save(user);
         return savedUser;
     }

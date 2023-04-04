@@ -1,5 +1,6 @@
 package com.example.carRental.service;
 
+import com.example.carRental.dto.RegistrationDto;
 import com.example.carRental.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ public class RegistrationService {
 @Autowired
     UserService userService;
 
-    public ResponseEntity register(User user) {
+    public ResponseEntity register(RegistrationDto registrationDto) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUser(registrationDto));
 
 
 
