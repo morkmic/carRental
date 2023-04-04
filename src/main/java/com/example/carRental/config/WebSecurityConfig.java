@@ -21,7 +21,6 @@ public class WebSecurityConfig {
                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
-               // .formLogin();
                 .httpBasic();
         return http.build();
     }
