@@ -4,6 +4,7 @@ import com.example.carRental.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,7 +30,10 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/cars","cars/sortCars", "/register").permitAll()
-                .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+                .requestMatchers("/cars/carRent","cars/carReturn").hasAuthority(UserRole.USER.name())
+                .requestMatchers("/cars/**").hasAuthority(UserRole.EMPLOYEE.name())
+                .requestMatchers(HttpMethod.GET,"/users", "/users/{userid}").hasAuthority(UserRole.EMPLOYEE.name())
+                .requestMatchers("/users/**", "/cars/**", "/register").hasRole(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

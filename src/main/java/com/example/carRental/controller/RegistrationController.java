@@ -1,6 +1,6 @@
 package com.example.carRental.controller;
 
-import com.example.carRental.dto.RegistrationDto;
+import com.example.carRental.dto.UserDto;
 import com.example.carRental.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ public class RegistrationController {
      RegistrationService registrationService;
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegistrationDto registrationDto) {
-        return registrationService.register(registrationDto);
+    public ResponseEntity register(@RequestBody UserDto userDto) {
+        return registrationService.register(userDto);
     }
 
 

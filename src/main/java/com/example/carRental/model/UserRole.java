@@ -6,5 +6,6 @@ import java.util.Collection;
 
 public enum UserRole  {
     USER,
+    EMPLOYEE,
     ADMIN
 }

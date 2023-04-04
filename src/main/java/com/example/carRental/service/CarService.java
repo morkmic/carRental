@@ -4,6 +4,7 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
+import com.example.carRental.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

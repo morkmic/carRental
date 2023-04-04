@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Configuration
 @RestController
+@RequestMapping("/cars")
 public class CarController {
     @Autowired
     CarRepository carRepository;
@@ -20,14 +21,14 @@ public class CarController {
     UserRepository userRepository;
     @Autowired
     CarService carService;
-//@RequestMapping("/cars")
-    @GetMapping("/cars")
+
+    @GetMapping
     public ResponseEntity getCars() {
         List<Car> cars = carRepository.findAll();
         return ResponseEntity.ok(cars);
     }
 
-    @GetMapping("/cars/sortCars")
+    @GetMapping("/sortCars")
     public ResponseEntity sortCars(@RequestParam String direction, @RequestParam String sortingMethod) {
         return ResponseEntity.ok(carService.sortCars(direction, sortingMethod));
     }
@@ -37,25 +38,25 @@ public class CarController {
 
     }*/
 
-    @PutMapping("/cars/carRent")
+    @PutMapping("/carRent")
     public ResponseEntity rentCar(@RequestParam Integer carId, @RequestParam  Long userId) {
         carService.rentCar(carId, userId );
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/cars/carReturn")
+    @PutMapping("/carReturn")
     public ResponseEntity returnCar(@RequestParam Long userId, @RequestParam Integer carId) {
          carService.returnCar(userId, carId);
          return ResponseEntity.noContent().build();
 
     }
-    @PostMapping("cars/addCar")
+    @PostMapping("/addCar")
     public ResponseEntity addCar(@RequestBody Car car) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(carRepository.save(car));
     }
 
-    @DeleteMapping("cars/deleteCar/{carId}")
+    @DeleteMapping("/deleteCar/{carId}")
     public ResponseEntity deleteCar(@PathVariable Integer carId) {
         carService.deleteCar(carId);
         return ResponseEntity.status(HttpStatus.OK).build();

@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Configuration
 @RestController
-//@RequestMapping("/users")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     UserRepository userRepository;
     @Autowired
     UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity getUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity getUser(@PathVariable Long userId) {
         User user = userService.getUser(userId);
         return ResponseEntity.ok(user);
@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(user));
     }*/
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable Long userId) {
          userService.deleteUser(userId);
         return ResponseEntity.noContent().build();

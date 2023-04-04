@@ -1,13 +1,11 @@
 package com.example.carRental.service;
 
 
-import com.example.carRental.dto.RegistrationDto;
+import com.example.carRental.dto.UserDto;
 import com.example.carRental.model.User;
 import com.example.carRental.model.UserRole;
 import com.example.carRental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +26,11 @@ public class UserService {
 
     }
 
-    public User addUser(RegistrationDto registrationDto) {
+    public User addUser(UserDto userDto) {
         User user = new User();
-        user.setUsername(registrationDto.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setEmail(registrationDto.getEmail());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
         user.setUserRole(UserRole.USER);
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
         if (userDB.isPresent()) {

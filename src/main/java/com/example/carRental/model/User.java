@@ -1,12 +1,11 @@
 package com.example.carRental.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +24,7 @@ public class User  implements UserDetails {
     @NonNull
     private String username;
     @NonNull
+    @Pattern(regexp = "^[a-zA-Z0-9]{8}]")
     private String password;
     private String email;
     @Enumerated(EnumType.STRING)
