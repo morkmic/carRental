@@ -6,10 +6,12 @@ import com.example.carRental.model.UserRole;
 import com.example.carRental.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Service
 public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
@@ -22,12 +24,15 @@ public class EmployeeService {
 
     }
 
-    public Employee addUser(EmployeeDto employeeDto) {
-        Employee employee = new Employee();
-        employee.setUsername(employeeDto.getUsername());
-        employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
-        employee.setEmail(employeeDto.getEmail());
-        employee.setUserRole(UserRole.EMPLOYEE);
+    public Employee addEmployee(EmployeeDto employeeDto) {
+        Employee employee = new Employee(
+       employeeDto.getUsername(),
+      passwordEncoder.encode(employeeDto.getPassword()),
+        employeeDto.getEmail(),
+                UserRole.EMPLOYEE,
+        employeeDto.getFirstname(),
+        employeeDto.getLastname());
+
         Optional<Employee> employeeDB = employeeRepository.findByUsername(employee.getUsername());
         if (employeeDB.isPresent()) {
             throw new IllegalStateException("employee exists");

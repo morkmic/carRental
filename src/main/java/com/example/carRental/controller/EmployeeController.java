@@ -35,11 +35,6 @@ public class EmployeeController {
 
     }
 
-  //  @PostMapping("/addUser")
-/*    public ResponseEntity addUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.addUser(user));
-    }*/
-
     @DeleteMapping("/{employeeId}")
     public ResponseEntity deleteEmployee(@PathVariable Long employeeId) {
          employeeService.deleteEmployee(employeeId);

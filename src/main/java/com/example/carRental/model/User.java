@@ -12,19 +12,20 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class User  implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NonNull
     private String username;
     @NonNull
-    @Pattern(regexp = "^[a-zA-Z0-9]{8}]")
+  //  @Pattern(regexp = "^_[a-zA-Z0-9]")
     private String password;
     private String email;
     @Enumerated(EnumType.STRING)
@@ -33,6 +34,15 @@ public class User  implements UserDetails {
     private Boolean enabled = false;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Car> carsList = new ArrayList<>();
+
+    public User( @NonNull String username, @NonNull String password, String email, UserRole userRole) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userRole = userRole;
+
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
