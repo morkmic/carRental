@@ -4,16 +4,9 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,26 +28,26 @@ public class CarService {
         return cars;
     }
 
-    public ResponseEntity rentCar(Long userId, Integer carId) {
+    public void rentCar(Integer carId, Long userId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         if (car.isAvailability() == true) {
             User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
             user.getCarsList().add(car);
             car.setAvailability(false);
-            return ResponseEntity.ok(userRepository.save(user));
-        } else return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Car isn't available");
+            userRepository.save(user);
+        }
     }
 
 
-    public ResponseEntity returnCar(Long userId, Integer carId) {
+    public void returnCar(Long userId, Integer carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         if (car.isAvailability() == false) {
             user.getCarsList().remove(car);
             car.setAvailability(true);
             userRepository.save(user);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
     }
 
     public List<Car> findByManufacturer(String manufacturer) {
@@ -67,13 +60,30 @@ public class CarService {
         return carRepository.findByModel(model);
     }
 
-    public List<Car> findByPriceGreaterThanEqual(Double price) {
+    public List<Car> findByProductionYear(Integer productionYear) {
+        return carRepository.findByProductionYear(productionYear);
+    }
+    public List<Car> findByHorsePowerGreaterThanEqual(double horsePower) {
+        return carRepository.findByHorsePowerGreaterThanEqual(horsePower);
+    }
+    public List<Car> findByHorsePowerLessThanEqual(double horsePower) {
+        return carRepository.findByHorsePowerLessThanEqual(horsePower);
+    }
+    public List<Car> findByPriceGreaterThanEqual(double price) {
         return carRepository.findByPriceGreaterThanEqual(price);
     }
-
-    public ResponseEntity deleteCar(Integer carId) {
+    public List<Car> findByPriceLessThanEqual(double price) {
+        return carRepository.findByPriceLessThanEqual(price);
+    }
+    public List<Car> findByAvailabilityTrue() {
+        return carRepository.findByAvailabilityTrue();
+    }
+    public List<Car> findByAvailabilityFalse() {
+        return carRepository.findByAvailabilityFalse();
+    }
+    public void deleteCar(Integer carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         carRepository.delete(car);
-        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 }

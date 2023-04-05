@@ -4,14 +4,12 @@ import com.example.carRental.model.User;
 import com.example.carRental.repository.UserRepository;
 import com.example.carRental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
+@Configuration
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,18 +26,20 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
+        User user = userService.getUser(userId);
+        return ResponseEntity.ok(user);
 
     }
 
-    @PostMapping
-    public ResponseEntity addUser(@RequestBody User user) {
-        return userService.addUser(user);
-    }
+  //  @PostMapping("/addUser")
+/*    public ResponseEntity addUser(@RequestBody User user) {
+        return ResponseEntity.ok(userService.addUser(user));
+    }*/
 
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable Long userId) {
-        return userService.deleteUser(userId);
+         userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 
 
