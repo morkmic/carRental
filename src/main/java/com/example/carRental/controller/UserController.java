@@ -31,10 +31,6 @@ public class UserController {
 
     }
 
-  //  @PostMapping("/addUser")
-/*    public ResponseEntity addUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.addUser(user));
-    }*/
 
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable Long userId) {

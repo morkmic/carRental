@@ -1,11 +1,8 @@
 package com.example.carRental.controller;
 
 import com.example.carRental.model.Employee;
-import com.example.carRental.model.User;
 import com.example.carRental.repository.EmployeeRepository;
-import com.example.carRental.repository.UserRepository;
 import com.example.carRental.service.EmployeeService;
-import com.example.carRental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
