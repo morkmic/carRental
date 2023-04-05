@@ -29,7 +29,8 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/cars","cars/sortCars", "/register", "/register/registerEmployee").permitAll()
+                .requestMatchers("/cars","cars/sortCars", "/register",
+                        "/register/registerEmployee","cars/filtration/**").permitAll()
                 .requestMatchers("/cars/carRent","cars/carReturn").hasAuthority(UserRole.USER.name())
                 .requestMatchers("/cars/**").hasAuthority(UserRole.EMPLOYEE.name())
                 .requestMatchers(HttpMethod.GET,"/users", "/users/{userid}").hasAuthority(UserRole.EMPLOYEE.name())

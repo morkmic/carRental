@@ -11,9 +11,13 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
     List<Car> findByManufacturer(String manufacturer);
 
     List<Car> findByModel(String model);
-
-    List<Car> findByPriceGreaterThanEqual(Double price);
-
+    List<Car> findByProductionYear(Integer productionYear);
+    List<Car> findByHorsePowerGreaterThanEqual(double horsePower);
+    List<Car> findByHorsePowerLessThanEqual(double horsePower);
+    List<Car> findByPriceGreaterThanEqual(double price);
+    List<Car> findByPriceLessThanEqual(double price);
+    List<Car> findByAvailabilityTrue();
+    List<Car> findByAvailabilityFalse();
 
 
 

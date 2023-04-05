@@ -4,11 +4,8 @@ import com.example.carRental.model.Car;
 import com.example.carRental.model.User;
 import com.example.carRental.repository.CarRepository;
 import com.example.carRental.repository.UserRepository;
-import com.example.carRental.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -63,12 +60,30 @@ public class CarService {
         return carRepository.findByModel(model);
     }
 
-    public List<Car> findByPriceGreaterThanEqual(Double price) {
+    public List<Car> findByProductionYear(Integer productionYear) {
+        return carRepository.findByProductionYear(productionYear);
+    }
+    public List<Car> findByHorsePowerGreaterThanEqual(double horsePower) {
+        return carRepository.findByHorsePowerGreaterThanEqual(horsePower);
+    }
+    public List<Car> findByHorsePowerLessThanEqual(double horsePower) {
+        return carRepository.findByHorsePowerLessThanEqual(horsePower);
+    }
+    public List<Car> findByPriceGreaterThanEqual(double price) {
         return carRepository.findByPriceGreaterThanEqual(price);
     }
-
+    public List<Car> findByPriceLessThanEqual(double price) {
+        return carRepository.findByPriceLessThanEqual(price);
+    }
+    public List<Car> findByAvailabilityTrue() {
+        return carRepository.findByAvailabilityTrue();
+    }
+    public List<Car> findByAvailabilityFalse() {
+        return carRepository.findByAvailabilityFalse();
+    }
     public void deleteCar(Integer carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException());
         carRepository.delete(car);
+
     }
 }
