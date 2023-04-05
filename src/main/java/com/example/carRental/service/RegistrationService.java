@@ -2,6 +2,7 @@ package com.example.carRental.service;
 
 import com.example.carRental.dto.EmployeeDto;
 import com.example.carRental.dto.UserDto;
+import com.example.carRental.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

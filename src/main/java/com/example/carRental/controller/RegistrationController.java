@@ -20,7 +20,6 @@ public class RegistrationController {
         return registrationService.register(userDto);
     }
 
-
     @PostMapping("/registerEmployee")
     public ResponseEntity registerEmployee(@RequestBody EmployeeDto employeeDto) {
         return registrationService.registerEmployee(employeeDto);

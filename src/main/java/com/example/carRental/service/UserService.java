@@ -36,11 +36,9 @@ public class UserService {
         if (userDB.isPresent()) {
             throw new IllegalStateException("user exists");
         }
-
         User savedUser = userRepository.save(user);
         return savedUser;
     }
-
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         userRepository.delete(user);

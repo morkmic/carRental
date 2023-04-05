@@ -1,6 +1,7 @@
 package com.example.carRental.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +25,7 @@ public class User  implements UserDetails {
     @NonNull
     private String username;
     @NonNull
-  //  @Pattern(regexp = "^_[a-zA-Z0-9]")
+  // @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$")
     private String password;
     private String email;
     @Enumerated(EnumType.STRING)
