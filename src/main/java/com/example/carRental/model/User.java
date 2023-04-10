@@ -49,7 +49,6 @@ public class User  implements UserDetails {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(authority);
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -8,10 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -23,14 +21,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findFirstByUsername(username);
 
         if(user != null){
-            Stream roleStream =  Stream.of(user.getUserRole());
-            List roleList = (List) roleStream.map((role) ->
-                    new SimpleGrantedAuthority(user.getUserRole().name())).collect(Collectors.toList());
+            SimpleGrantedAuthority grantedAuthority =
+                    new SimpleGrantedAuthority(user.getUserRole().name());
             org.springframework.security.core.userdetails.User authUser =
                     new org.springframework.security.core.userdetails.User(
                             user.getEmail(),
                             user.getPassword(),
-                            roleList
+                            Collections.singletonList(grantedAuthority)
                         );
             return authUser;
         }else {

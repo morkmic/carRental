@@ -31,7 +31,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/cars","cars/sortCars", "/register",
                         "/register/registerEmployee","cars/filtration/**").permitAll()
-                .requestMatchers("/cars/carRent","cars/carReturn").hasAuthority(UserRole.USER.name())
+                .requestMatchers("/cars/carRent").hasAuthority(UserRole.USER.name())
                 .requestMatchers("/cars/**").hasAuthority(UserRole.EMPLOYEE.name())
                 .requestMatchers(HttpMethod.GET,"/users", "/users/{userid}").hasAuthority(UserRole.EMPLOYEE.name())
                 .requestMatchers("/users/**", "/cars/**", "/employee/**", "/register").hasRole(UserRole.ADMIN.name())
