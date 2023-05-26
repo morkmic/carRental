@@ -26,12 +26,12 @@ public class EmployeeService {
 
     public Employee addEmployee(EmployeeDto employeeDto) {
         Employee employee = new Employee(
-       employeeDto.getUsername(),
-      passwordEncoder.encode(employeeDto.getPassword()),
-        employeeDto.getEmail(),
+                employeeDto.getUsername(),
+                passwordEncoder.encode(employeeDto.getPassword()),
+                employeeDto.getEmail(),
                 UserRole.EMPLOYEE,
-        employeeDto.getFirstname(),
-        employeeDto.getLastname());
+                employeeDto.getFirstname(),
+                employeeDto.getLastname());
 
         Optional<Employee> employeeDB = employeeRepository.findByUsername(employee.getUsername());
         if (employeeDB.isPresent()) {

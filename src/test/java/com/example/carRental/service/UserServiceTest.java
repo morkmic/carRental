@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.carRental.dto.UserDto;
+
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -58,6 +59,7 @@ public class UserServiceTest {
 
     @Test
     void shouldSaveGivenUser() {
+        //given
         UserDto userDto = new UserDto();
         userDto.setUsername("user");
         userDto.setPassword("password");
@@ -69,25 +71,25 @@ public class UserServiceTest {
         savedUser.setEmail(userDto.getEmail());
         savedUser.setUserRole(UserRole.USER);
 
-        Mockito.when(passwordEncoderMock.encode(userDto.getPassword())).thenReturn("encodedPassword");
-        Mockito.when(userRepositoryMock.findByUsername(userDto.getUsername())).thenReturn(Optional.empty());
+        //when
         Mockito.when(userRepositoryMock.save(Mockito.any(User.class))).thenReturn(savedUser);
-
         User returnedUser = userService.addUser(userDto);
+        //then
         assertEquals(returnedUser, savedUser);
     }
 
     @Test
     void alreadyExistUsershouldThrowException() {
+        //given
         UserDto userDto = new UserDto();
         userDto.setUsername("user");
         userDto.setPassword("password");
         userDto.setEmail("user@example.com");
-
+        //when
         Optional<User> user = Optional.of(this.user);
 
         Mockito.when(userRepositoryMock.findByUsername(userDto.getUsername())).thenReturn(user);
-
+        //then
         assertThrows(IllegalStateException.class, () -> {
             userService.addUser(userDto);
         });
@@ -95,7 +97,8 @@ public class UserServiceTest {
 
     @Test
     void shouldDeleteUserWithGivenId() {
-
+        //when
+        //then
         Mockito.when(userRepositoryMock.findById(userId)).thenReturn(Optional.of(user));
         userService.deleteUser(userId);
         Mockito.verify(userRepositoryMock, Mockito.times(1)).delete(user);
@@ -104,9 +107,7 @@ public class UserServiceTest {
     @Test
     void notExistingUserShouldThrowExceptionDuringDelete() {
 
-
-        Mockito.when(userRepositoryMock.findById(userId)).thenReturn(Optional.empty());
-
+        //then
         assertThrows(NoSuchElementException.class, () -> {
             userService.deleteUser(userId);
         });
