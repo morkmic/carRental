@@ -20,6 +20,14 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    public UserService() {
+    }
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public User getUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
         return user;
@@ -29,7 +37,8 @@ public class UserService {
     public User addUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        //user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
         user.setUserRole(UserRole.USER);
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
